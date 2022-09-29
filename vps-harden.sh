@@ -1,8 +1,7 @@
 #!/bin/bash
 # Script to Harden Security on Ubuntu 16.04 LTS. Also tested on 18.04 and 20.04 LTS. Based on the script made by AKcryptoguy.
 # This VPS Server Hardening script is designed to be run on new VPS deployments to simplify a lot of the
-# basic hardening that can be done to protect your server. I assimilated several design ideas from AMega's
-# VPS hardening script which I found on Github seemingly abandoned. I am very happy to finish it.
+# basic hardening that can be done to protect your server. 
 
 }
 
