@@ -27,4 +27,5 @@ Follow the steps provided in install_steps.txt
 
 # Configure to use with OpenVPN
 
-Follow the steps provided in config_steps.txt
+Follow the steps provided in the following project:
+https://github.com/MJFiuba/openvpn-server-install
