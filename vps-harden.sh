@@ -771,7 +771,8 @@ function google_auth() {
     echo -e " You can increase the security of your VPS by installing a 2-factor"
     echo -e " authentication solution which will require a time-based, one-time"
     echo -e " token in addition to your username and password. This installation"
-    echo -e " requires you to use the Google Authenticator app on your phone (there are many open source alternatives).\n"
+    echo -e " requires you to use the Google Authenticator app on your phone"
+    echo -e " or any open source alternative like Aegis or OTPAuth. \n"
 
         echo -e -n "${cyan}"
             while :; do
