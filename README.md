@@ -24,3 +24,7 @@ The following is a list of different sections of the script, which are broken up
 # Installation
 
 Follow the steps provided in install_steps.txt
+
+# Configuration
+
+Follow the steps provided in config_steps.txt
