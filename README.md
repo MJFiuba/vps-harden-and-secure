@@ -1,4 +1,4 @@
-## <p align="center"> Server Hardening Script (based on AKcryptoGUY's script)</p>
+## <p align="center"> VPN Server Hardening Script (based on AKcryptoGUY's script)</p>
 
 # About
 
