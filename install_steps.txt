@@ -2,7 +2,7 @@
 
 SSH into your VPS and run this commands to clone the Github repository and begin installation:
 
-sudo git clone https://github.com/akcryptoguy/vps-harden.git 
+sudo git clone https://github.com/MJFiuba/vps-harden-and-secure
 cd vps-harden
 sudo bash get-hard.sh
 
