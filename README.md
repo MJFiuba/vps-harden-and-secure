@@ -25,6 +25,6 @@ The following is a list of different sections of the script, which are broken up
 
 Follow the steps provided in install_steps.txt
 
-# Configuration
+# Configure to use with OpenVPN
 
 Follow the steps provided in config_steps.txt
