@@ -97,9 +97,7 @@ Additionally, there are some additional files you can modify to suit your needs.
 ----------------------------------------------------------------------
 
 TODO: look into the following topics
-- hpw to configure a static IP address for the VPN server
-- where to configure username and password for the allowed users
--- how to do this with OpenVPN
-- how to make a port mapping rule in the router to allow the VPN server to be accesed from Internet
+- how to configure a static IP address for the VPN server
 - how to limit the amount of connections
 -- limit DHCP address pool to provide a MAX number of IPs
+- how to make a port mapping rule in the router to allow the VPN server to be accesed from Internet
