@@ -2,7 +2,7 @@
 
 # About
 
-A lot of good virtual servers get destroyed every year because they are hacked by evildoers that take advantage of unpatched exploits and simple passwords. It's frustrating that many of these hacks could have been prevented by some basic hardening. With large numbers of Linux newcomers flocking to enter the space and set up masternodes I saw a need for a simple way to secure virtual servers that would, *for the most part*, keep the bad guys out. It is my intent to keep this script general enough that it could be the first script run on many different types of VPS installations to prepare them for whatever use you have planned.
+This script intends to be an assistant to configure a Ubuntu server to be used as a VPS, performing hardening and securization tasks to prevent malicious attacks and function as a VPN server.
 
 The following is a list of different sections of the script, which are broken up into separate functions which are called from the very end of the script. 
 
