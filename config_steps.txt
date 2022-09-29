@@ -1,0 +1,15 @@
+---------------------------------------------------------
+OpenVPN road warrior installer for Ubuntu, Debian, AlmaLinux, Rocky Linux, CentOS and Fedora.
+---------------------------------------------------------
+
+
+1) SSH into your VPS and run this commands to clone the Github repository and begin installation:
+
+sudo git clone https://github.com/Nyr/openvpn-install.git
+cd openvpn-install
+sudo openvpn-install.sh
+
+This script will let you set up your own VPN server in no more than a minute, even if you haven't used OpenVPN before. It has been designed to be as unobtrusive and universal as possible.
+Once it ends, you can run it again to add more users, remove some of them or even completely uninstall OpenVPN.
+
+
