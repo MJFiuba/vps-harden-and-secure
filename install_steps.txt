@@ -1,0 +1,105 @@
+1) Basic installation (tested on Ubuntu 16.04, 18.04 and 20.04 LTS)
+
+SSH into your VPS and run this commands to clone the Github repository and begin installation:
+
+sudo git clone https://github.com/akcryptoguy/vps-harden.git 
+cd vps-harden
+sudo bash get-hard.sh
+
+The script will then walk you through each of the server hardening steps, offering prompts for feedback and other notes along the way. 
+It will also keep a log of changes that are made to the system which you can review when it is complete. The output will also be displayed on the screen.
+
+When you are finished, you'll see confirmation that the script completed setup and you will be given a list of notes about your installation. The installation log file is stored in the server's log folder at /var/log/server_hardening.log
+
+I would recommend that you take a screenshot of that page and save it for later. It has important information about your setup and if you don't keep note of the settings you entered, you could find yourself locked out of your server. If you chose to require RSA key for login and disabled password login, be sure that you have an RSA key installed as described in the next section.
+
+
+----------------------------------------------------------------------
+
+
+2) (Optional, recommended) Post-Installation Hardening with RSA Key-pair
+In order to secure your server's root login via SSH, you may follow these steps on your VPS:
+
+i)
+mkdir ~/.ssh && touch ~/.ssh/authorized_keys
+(this command may give an error if it already exists
+mkdir: cannot create directory ‘/root/.ssh’: File exists
+)
+ii)
+sudo chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
+iii)
+sudo vim ~/.ssh/authorized_keys
+
+iv) Generate key-pair with Puttygen
+- open puttygen
+- in Parameters, choose RSA and 4096 bytes
+- click on Generate
+- move the mouse in the area to generate randomness
+- change the key comment to rsa-key-vps
+- choose a key passphrase (ex: vpsadmin2022)
+- copy public key with Ctrl+c
+- paste the public key on the authorized_keys file , save the file
+(Optional: you can also save the public key to a file if you want to use it in other VMs)
+- click on "Save private key" , save as file with ".ppk" extension
+v)   
+sudo vim /etc/ssh/sshd_config
+vi)  Enter a port for SSH (default is 22, this port could be used by potential attackers to hack your system, so it is recommended to use a port between 11000 and 65535)
+Port 22222
+vii) (Optional) You can disable root login by editing the line. This is recommended for security reasons.
+PermitRootLogin no
+ix) (Optional) You can create a login banner by editing the files 
+sudo vim /etc/pam.d/sshd
+(comment these lines 
+session    optional     pam_motd.so  motd=/run/motd.dynamic
+session    optional     pam_motd.so noupdate
+)
+sudo vim /etc/ssh/sshd_config
+(uncomment the banner line)
+sudo vim /etc/issue.net
+(here you can write your login message. e.g.: 
+UNAUTHORIZED ACCESS IS STRICTLY PROHIBITED.
+MAKE SURE YOU READ THE COMPANIES POLICY BEFORE YOU LOG IN.
+THANK YOU.
+)
+
+x) Restart sshd service to apply changes
+sudo systemctl restart sshd
+
+Note: Don't close out your existing session until you have made a test connection using your private key for authentication. If the connection works, it is now safe to edit the sshd_config using the command below to disable password authentication altogether by changing the line to read “PasswordAuthentication no” and save the file .
+
+sudo vim /etc/ssh/sshd_config
+
+You will once more need to run sudo systemctl restart sshd to make those changes to sshd_config active and now your server will be secured using your RSA public/private key pair which is infinitely more secure than using a root password to login.
+
+xi) Reconnect to SSH to confirm the settings are correct. Make these changes in Putty
+- change the default port to the new custom SSH port
+- go to Connection -> SSH -> Auth and load the private key file generated in step iv)
+- save the session (e.g. ubuntu-vps)
+
+xii) click Open to establish SSH connection
+xiii) enter the passphrase created in step iv) when prompted.
+
+----------------------------------------------------------------------
+
+3) shutdown the VM and create a snapshot (e.g. VPS hardened and secured)
+
+----------------------------------------------------------------------
+
+Additionally, there are some additional files you can modify to suit your needs. I have listed a few of these files below along with why you might consider editing them.
+
+- Automatic Update Settings
+/etc/apt/apt.conf.d/10periodic
+/etc/apt/apt.conf.d/50unattended-upgrades
+
+- Ksplice Settings
+/etc/uptrack/uptrack.conf
+
+----------------------------------------------------------------------
+
+TODO: look into the following topics
+- hpw to configure a static IP address for the VPN server
+- where to configure username and password for the allowed users
+-- how to do this with OpenVPN
+- how to make a port mapping rule in the router to allow the VPN server to be accesed from Internet
+- how to limit the amount of connections
+-- limit DHCP address pool to provide a MAX number of IPs
