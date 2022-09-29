@@ -3,7 +3,7 @@
 # This VPS Server Hardening script is designed to be run on new VPS deployments to simplify a lot of the
 # basic hardening that can be done to protect your server. 
 
-}
+
 
 # ###### SECTIONS ######
 # 1. CREATE SWAP / if no swap exists, create 1 GB swap
