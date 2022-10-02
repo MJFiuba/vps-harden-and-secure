@@ -44,7 +44,6 @@ iv) Generate key-pair with Puttygen
 v)   
 sudo vim /etc/ssh/sshd_config
 vi)  Enter a port for SSH (default is 22, this port could be used by potential attackers to hack your system, so it is recommended to use a port between 11000 and 65535)
-Port 22222
 vii) (Optional) You can disable root login by editing the line. This is recommended for security reasons.
 PermitRootLogin no
 ix) (Optional) You can create a login banner by editing the files 
