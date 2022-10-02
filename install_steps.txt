@@ -21,6 +21,7 @@ I would recommend that you take a screenshot of that page and save it for later.
 In order to secure your server's root login via SSH, you may follow these steps on your VPS:
 
 i)
+sudo su -
 mkdir ~/.ssh && touch ~/.ssh/authorized_keys
 (this command may give an error if it already exists
 mkdir: cannot create directory ‘/root/.ssh’: File exists
