@@ -3,6 +3,7 @@
 # About
 
 This script intends to be an assistant to configure a Ubuntu server to be used as a VPS, performing hardening and securization tasks to prevent malicious attacks and function as a VPN server.
+Tested on Ubuntu 16.04, 18.04, 20.04 and 22.04 LTS.
 
 The following is a list of different sections of the script, which are broken up into separate functions which are called from the very end of the script. 
 
