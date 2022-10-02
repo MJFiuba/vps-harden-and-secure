@@ -17,7 +17,8 @@ I would recommend that you take a screenshot of that page and save it for later.
 ----------------------------------------------------------------------
 
 
-2) (Optional, recommended) Post-Installation Hardening with RSA Key-pair
+2) (Optional, recommended) VPS Hardening with RSA Key-pair
+(note: If you wish to install Google 2FA, you need to configure public and private key auth BEFORE installing the Google 2FA.)
 In order to secure your server's root login via SSH, you may follow these steps on your VPS:
 
 i)
