@@ -803,7 +803,12 @@ function google_auth() {
         echo -e ' --> Enabling Google Authenticator in /etc/pam.d/sshd'  | tee -a "$LOGFILE"
         sed -i "s/@include common-auth/#@include common-auth/" /etc/pam.d/sshd
         echo 'auth required pam_google_authenticator.so' | sudo tee -a /etc/pam.d/sshd
-
+        # MJFiuba 2022: added fix for Ubuntu 22.04
+        . /etc/os-release
+        if [[ "${VERSION_ID}" == "22.04" ]] ; then
+            echo 'auth required pam_permit.so' | sudo tee -a /etc/pam.d/common-auth
+            sed -i "s/KbdInteractiveAuthentication no/KbdInteractiveAuthentication yes/" /etc/ssh/sshd_config
+        fi
         echo -e ' --> Enabling Google Authenticator in /etc/ssh/sshd_config'  | tee -a "$LOGFILE"
         sed -i "s/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/" /etc/ssh/sshd_config
         sed -i "s/PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config
