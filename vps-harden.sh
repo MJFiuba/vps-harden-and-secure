@@ -816,22 +816,12 @@ function google_auth() {
         
             # copy Google Auth key to new user if it exists
             if [ "${UNAME,,}" ] && [ -e /root/.google_authenticator ]
-            then # copy root Google Authenticator file for all existing users
-                 # get list of all users
-                 UHOME="/home"
-                _USERS="$(awk -F':' '{ if ( $3 >= 500 ) print $1 }' /etc/passwd)"
-                for u in $_USERS
-                do
-                   _dir="${UHOME}/${u}"
-                   if [ -d "$_dir" ]
-                   then
-                      /bin/cp /root/.google_authenticator "$_dir"
-                      # fix permissions on RSA key
-                      chown $(id -un $u):$(id -gn $u) "$_dir/.google_authenticator"
-                      chmod 400 "$_dir/.google_authenticator"
-                      echo " $(date +%m.%d.%Y_%H:%M:%S) : SUCCESS : Google Auth file was applied to $(id -un $u)'s profile" | tee -a "$LOGFILE"
-                   fi
-                done
+            then # copy root Google Authenticator file new non-root user
+                cp /root/.google_authenticator /home/"${UNAME,,}"/.google_authenticator
+                # fix permissions on RSA key
+                chmod 400 /home/"${UNAME,,}"/.google_authenticator
+                chown "${UNAME,,}":"${UNAME,,}" /home/"${UNAME,,}" -R
+                echo " $(date +%m.%d.%Y_%H:%M:%S) : SUCCESS : Google Auth file was applied to ${UNAME,,}'s profile" | tee -a "$LOGFILE"
             else echo -e -n "${yellow}"
                 echo " $(date +%m.%d.%Y_%H:%M:%S) : Google Auth file not present for root, so none was copied." | tee -a "$LOGFILE"
             fi
@@ -1202,6 +1192,27 @@ disable_passauth
 ufw_config
 server_hardening
 google_auth
+##################################
+# MJFiuba 2022: copy root Google Auth file to all existing users
+# without this, only root and the non-root user created on the install process are able to log in via SSH
+UHOME="/home"
+FILE="/root/.google_authenticator"
+if [ -e "$FILE" ]
+then
+     # get list of all users
+    _USERS="$(awk -F':' '{ if ( $3 >= 500 ) print $1 }' /etc/passwd)"
+    for u in $_USERS
+    do
+       _dir="${UHOME}/${u}"
+       if [ -d "$_dir" ]
+       then
+          /bin/cp "$FILE" "$_dir"
+          chown $(id -un $u):$(id -gn $u) "$_dir/${FILE}"
+          chmod 400 "$_dir/${FILE}"
+       fi
+    done
+fi
+##################################
 ksplice_install
 motd_install
 restart_sshd
