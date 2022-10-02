@@ -36,7 +36,7 @@ iv) Generate key-pair with Puttygen
 - click on Generate
 - move the mouse in the area to generate randomness
 - change the key comment to rsa-key-vps
-- choose a key passphrase (ex: vpsadmin2022)
+- choose a key passphrase (e.g. fiuba2022)
 - copy public key with Ctrl+c
 - paste the public key on the authorized_keys file , save the file
 (Optional: you can also save the public key to a file if you want to use it in other VMs)
