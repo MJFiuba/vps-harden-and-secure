@@ -1172,11 +1172,35 @@ function display_banner() {
         \/ |   .__/   |  |/~~\|  \|__/|___| \||| \|\__>
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 THIS IS THE VPS HARDENING SCRIPT. IT PERFORMS SOME BASIC TASKS TO HARDEN AND SECURE YOUR VPS. 
-TESTED ON UBUNTU 16.04 , 18.04 AND 20.04
+TESTED ON UBUNTU 16.04 , 18.04, 20.04 and 22.04 LTS
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 EOF
     echo -e -n "${nocolor}"
 }
+
+#MJFiuba 2022: copy Google Auth file to all existing users home directories
+function copy_google_auth_file() {
+    UHOME="/home"
+    google_auth_file=""
+    find / -name .google_authenticator >> $google_auth_file
+    if [ -z "$google_auth_file" ]
+    then
+         # get list of all users
+        _USERS="$(awk -F':' '{ if ( $3 >= 500 ) print $1 }' /etc/passwd)"
+        for u in $_USERS
+        do
+           _dir="${UHOME}/${u}"
+           if [ -d "$_dir" ]
+           then
+              /bin/cp "$FILE" "$_dir"
+              chown $(id -un $u):$(id -gn $u) "$_dir/${FILE}"
+              chmod 400 "$_dir/${FILE}"
+           fi
+        done
+    echo " $(date +%m.%d.%Y_%H:%M:%S) : Google Auth file has been copied to all existing users." | tee -a "$LOGFILE"
+    fi
+}
+
 
 check_distro
 setup_environment
@@ -1196,24 +1220,8 @@ google_auth
 # MJFiuba 2022: copy root Google Auth file to all existing users
 # without this, only root and the non-root user created on the install process are able to log in via SSH
 # but the users created before would be locked out
-UHOME="/home"
-FILE=".google_authenticator"
-if [ -e "/root/${FILE}" ]
-then
-     # get list of all users
-    _USERS="$(awk -F':' '{ if ( $3 >= 500 ) print $1 }' /etc/passwd)"
-    for u in $_USERS
-    do
-       _dir="${UHOME}/${u}"
-       if [ -d "$_dir" ]
-       then
-          /bin/cp "$FILE" "$_dir"
-          chown $(id -un $u):$(id -gn $u) "$_dir/${FILE}"
-          chmod 400 "$_dir/${FILE}"
-       fi
-    done
-fi
-##################################
+copy_google_auth_file
+
 ksplice_install
 motd_install
 restart_sshd
