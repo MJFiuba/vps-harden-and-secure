@@ -1195,9 +1195,10 @@ google_auth
 ##################################
 # MJFiuba 2022: copy root Google Auth file to all existing users
 # without this, only root and the non-root user created on the install process are able to log in via SSH
+# but the users created before would be locked out
 UHOME="/home"
-FILE="/root/.google_authenticator"
-if [ -e "$FILE" ]
+FILE=".google_authenticator"
+if [ -e "/root/${FILE}" ]
 then
      # get list of all users
     _USERS="$(awk -F':' '{ if ( $3 >= 500 ) print $1 }' /etc/passwd)"
