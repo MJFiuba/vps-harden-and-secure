@@ -1181,7 +1181,7 @@ EOF
 #MJFiuba 2022: copy Google Auth file to all existing users home directories
 function copy_google_auth_file() {
     UHOME="/home"
-    FILENAME=".google_auth"
+    FILENAME=".google_authenticator"
     file_path="$(find / -name $FILENAME | head -1)"
     echo $file_path
     if [ -n "$file_path" ]
