@@ -1181,9 +1181,10 @@ EOF
 #MJFiuba 2022: copy Google Auth file to all existing users home directories
 function copy_google_auth_file() {
     UHOME="/home"
-    google_auth_file=""
-    find / -name .google_authenticator >> $google_auth_file
-    if [ -z "$google_auth_file" ]
+    FILENAME=".google_auth"
+    file_path="$(find / -name $FILENAME | head -1)"
+    echo $file_path
+    if [ -n "$file_path" ]
     then
          # get list of all users
         _USERS="$(awk -F':' '{ if ( $3 >= 500 ) print $1 }' /etc/passwd)"
@@ -1192,14 +1193,15 @@ function copy_google_auth_file() {
            _dir="${UHOME}/${u}"
            if [ -d "$_dir" ]
            then
-              /bin/cp "$FILE" "$_dir"
-              chown $(id -un $u):$(id -gn $u) "$_dir/${FILE}"
-              chmod 400 "$_dir/${FILE}"
+              /bin/cp "$file_path" "$_dir"
+              chown $(id -un $u):$(id -gn $u) "${_dir}/${FILENAME}"
+              chown $(id -un $u):$(id -gn $u) "${_dir}"
+              chmod 400 "${_dir}/${FILENAME}"
            fi
         done
-    echo " $(date +%m.%d.%Y_%H:%M:%S) : Google Auth file has been copied to all existing users." | tee -a "$LOGFILE"
     fi
 }
+
 
 
 check_distro
